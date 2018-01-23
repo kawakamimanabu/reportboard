@@ -1,6 +1,6 @@
 reportboard: Assortment of technologies including Arquillian
 ========================
-Author: Pete Muir
+Author: Manabu KAWAKAMI
 Level: Intermediate
 Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
 Summary: An example that incorporates multiple technologies
@@ -10,11 +10,8 @@ Source: <https://github.com/wildfly/quickstart/>
 What is it?
 -----------
 
-This is your project! It is a sample, deployable Maven 3 project to help you get your foot in the door developing with Java EE 7 on JBoss WildFly.
+This is simple BBS with authentication.
 
-This project is setup to allow you to create a compliant Java EE 7 application using JSF 2.2, CDI 1.1, EJB 3.3, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
-
-There is a tutorial for this quickstart in the [Getting Started Developing Applications Guide](https://github.com/wildfly/quickstart/guide/reportboard/).
 
 System requirements
 -------------------
