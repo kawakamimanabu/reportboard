@@ -1,16 +1,44 @@
-reportboard: Assortment of technologies including Arquillian
+reportboard: BBS which you can attach images for reports and comments 
 ========================
 Author: Manabu KAWAKAMI
 Level: Intermediate
 Technologies: CDI, JSF, JPA, EJB, JPA, JAX-RS, BV
 Summary: An example that incorporates multiple technologies
 Target Project: WildFly
-Source: <https://github.com/wildfly/quickstart/>
+
+
 
 What is it?
 -----------
 
 This is simple BBS with authentication.
+
+教育係が受講者からの画像付きのレポートを受け付けます。
+教育係は、レポートに対して画像付きのコメントを追加できます。
+
+* ログイン機能（特定メールアドレスでログインする）
+* パスワード変更機能
+* 名前変更機能
+* 教育係判別機能（ユーザに対して教育係か否かを判別する）
+* 受講者レポート一覧機能
+    * 教育係のみ閲覧可能
+    * 誰がいつレポートしたかの一覧
+* レポート履歴表示機能
+    * レポートを作成した受講者と教育係が閲覧可能
+    * 受講者のレポート一覧表示、コメントは表示しない
+* レポート詳細表示機能
+    * レポートした受講者と教育係が閲覧可能
+    * 全コメントを表示する
+* レポート投稿機能（受講者）
+    * レポートは文字列で入力される
+    * 画像が添付可能である
+* コメント投稿機能
+    * 受講者、教育係両方で利用可能
+    * 画像が添付可能である
+    * 教育係は誰のレポートに対してもコメント可能
+    * 受講者は自分のレポートに対してのみコメント可能
+* メール送信機能（受講者がレポートすると教育係にメールが送信される）
+
 
 
 
@@ -86,6 +114,7 @@ Run the Quickstart in JBoss Developer Studio or Eclipse
 You can also start the server and deploy the quickstarts from Eclipse using JBoss tools. For more information, see [Use JBoss Developer Studio or Eclipse to Run the Quickstarts](https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/USE_JBDS.md) 
 
 
+
 Debug the Application
 ------------------------------------
 
@@ -93,3 +122,44 @@ If you want to debug the source code or look at the Javadocs of any library in t
 
     mvn dependency:sources
     mvn dependency:resolve -Dclassifier=javadoc
+
+
+
+DB tables
+------------------------------------
+USERS 
+* userId
+* mailAddress
+* password 
+* fullName
+* staffFlag
+* deleteFlag
+
+INCHARGES
+* newUserId
+* mainUserId
+* subUserId
+
+REPORTS
+* reportId
+* report
+* createdWhen
+* createdUserId
+* updatedWhen
+
+COMMENTS
+* commentId
+* reportId
+* comment
+* createdWhen
+* createdUserId
+
+REPORT_IMAGES
+* reportImageId
+* reportId
+* imageBlob
+
+COMMENT_IMAGES
+* commentImageId
+* commentId
+* imageBlob
