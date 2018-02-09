@@ -135,17 +135,13 @@ USERS
 * staffFlag
 * deleteFlag
 
-INCHARGES
-* newUserId
-* mainUserId
-* subUserId
-
 REPORTS
 * reportId
 * report
 * createdWhen
 * createdUserId
 * updatedWhen
+* updatedUserId
 
 COMMENTS
 * commentId
@@ -157,9 +153,11 @@ COMMENTS
 REPORT_IMAGES
 * reportImageId
 * reportId
-* imageBlob
+* image_name
+* content
 
 COMMENT_IMAGES
 * commentImageId
 * commentId
-* imageBlob
+* image_name
+* content
