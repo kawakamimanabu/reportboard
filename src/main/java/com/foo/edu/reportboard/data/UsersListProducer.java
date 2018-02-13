@@ -16,6 +16,8 @@
  */
 package com.foo.edu.reportboard.data;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -23,32 +25,31 @@ import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
 
-import com.foo.edu.reportboard.model.Member;
+import com.foo.edu.reportboard.model.Users;
 
 @RequestScoped
-public class MemberListProducer {
+public class UsersListProducer {
 
     @Inject
-    private MemberRepository memberRepository;
+    private UsersRepository usersRepository;
 
-    private List<Member> members;
+    private List<Users> users;
 
     // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
     // Facelets or JSP view)
     @Produces
     @Named
-    public List<Member> getMembers() {
-        return members;
+    public List<Users> getUsers() {
+        return users;
     }
 
-    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
-        retrieveAllMembersOrderedByName();
+    public void onUsersListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Users users) {
+        retrieveAllUsersOrderedByName();
     }
 
     @PostConstruct
-    public void retrieveAllMembersOrderedByName() {
-        members = memberRepository.findAllOrderedByName();
+    public void retrieveAllUsersOrderedByName() {
+        users = usersRepository.findAllOrderedByName();
     }
 }

@@ -24,34 +24,34 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.foo.edu.reportboard.model.Member;
-import com.foo.edu.reportboard.service.MemberRegistration;
+import com.foo.edu.reportboard.model.Users;
+import com.foo.edu.reportboard.service.UserRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://www.cdi-spec.org/faq/#accordion6
 @Model
-public class MemberController {
+public class UsersController {
 
     @Inject
     private FacesContext facesContext;
 
     @Inject
-    private MemberRegistration memberRegistration;
+    private UserRegistration memberRegistration;
 
     @Produces
     @Named
-    private Member newMember;
+    private Users newUsers;
 
     @PostConstruct
     public void initNewMember() {
-        newMember = new Member();
+        newUsers = new Users();
     }
 
     public void register() throws Exception {
         try {
-            memberRegistration.register(newMember);
+            memberRegistration.register(newUsers);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initNewMember();

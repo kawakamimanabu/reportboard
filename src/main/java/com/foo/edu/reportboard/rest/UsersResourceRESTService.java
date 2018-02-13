@@ -40,18 +40,18 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.foo.edu.reportboard.data.MemberRepository;
-import com.foo.edu.reportboard.model.Member;
-import com.foo.edu.reportboard.service.MemberRegistration;
+import com.foo.edu.reportboard.data.UsersRepository;
+import com.foo.edu.reportboard.model.Users;
+import com.foo.edu.reportboard.service.UserRegistration;
 
 /**
  * JAX-RS Example
  * <p/>
  * This class produces a RESTful service to read/write the contents of the members table.
  */
-@Path("/members")
+@Path("/users")
 @RequestScoped
-public class MemberResourceRESTService {
+public class UsersResourceRESTService {
 
     @Inject
     private Logger log;
@@ -60,26 +60,26 @@ public class MemberResourceRESTService {
     private Validator validator;
 
     @Inject
-    private MemberRepository repository;
+    private UsersRepository repository;
 
     @Inject
-    MemberRegistration registration;
+    UserRegistration registration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Member> listAllMembers() {
+    public List<Users> listAllUsers() {
         return repository.findAllOrderedByName();
     }
 
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Member lookupMemberById(@PathParam("id") long id) {
-        Member member = repository.findById(id);
-        if (member == null) {
+    public Users lookupMemberById(@PathParam("id") long id) {
+        Users user = repository.findById(id);
+        if (user == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        return member;
+        return user;
     }
 
     /**
@@ -89,15 +89,15 @@ public class MemberResourceRESTService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createMember(Member member) {
+    public Response createMember(Users user) {
 
         Response.ResponseBuilder builder = null;
 
         try {
             // Validates member using bean validation
-            validateMember(member);
+            validateMember(user);
 
-            registration.register(member);
+            registration.register(user);
 
             // Create an "ok" response
             builder = Response.ok();
@@ -129,20 +129,20 @@ public class MemberResourceRESTService {
      * exception so that it can be interpreted separately.
      * </p>
      * 
-     * @param member Member to be validated
+     * @param users Member to be validated
      * @throws ConstraintViolationException If Bean Validation errors exist
      * @throws ValidationException If member with the same email already exists
      */
-    private void validateMember(Member member) throws ConstraintViolationException, ValidationException {
+    private void validateMember(Users users) throws ConstraintViolationException, ValidationException {
         // Create a bean validator and check for issues.
-        Set<ConstraintViolation<Member>> violations = validator.validate(member);
+        Set<ConstraintViolation<Users>> violations = validator.validate(users);
 
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
         }
 
         // Check the uniqueness of the email address
-        if (emailAlreadyExists(member.getEmail())) {
+        if (emailAlreadyExists(users.getMailAddress())) {
             throw new ValidationException("Unique Email Violation");
         }
     }
@@ -174,12 +174,12 @@ public class MemberResourceRESTService {
      * @return True if the email already exists, and false otherwise
      */
     public boolean emailAlreadyExists(String email) {
-        Member member = null;
+        Users users = null;
         try {
-            member = repository.findByEmail(email);
+            users = repository.findByEmail(email);
         } catch (NoResultException e) {
             // ignore
         }
-        return member != null;
+        return users != null;
     }
 }

@@ -26,10 +26,20 @@
       <!-- The datasource is deployed as WEB-INF/reportboard-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/reportboard-ds.xml -->
       <jta-data-source>java:jboss/datasources/reportboardDS</jta-data-source>
+      <class>com.foo.edu.reportboard.model.CommentImages</class>
+      <class>com.foo.edu.reportboard.model.Comments</class>
+      <class>com.foo.edu.reportboard.model.ReportImages</class>
+      <class>com.foo.edu.reportboard.model.Reports</class>
+      <class>com.foo.edu.reportboard.model.Users</class>
       <properties>
          <!-- Properties for Hibernate -->
-         <property name="hibernate.hbm2ddl.auto" value="create-drop" />
          <property name="hibernate.show_sql" value="false" />
+         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+         <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+         <property name="hibernate.connection.url" value="jdbc:postgresql:reportboard"/>
+         <property name="hibernate.default_schema" value="public"/>
+         <property name="hibernate.connection.username" value="manabu"/>
+         <property name="hibernate.connection.password" value="extreme"/>
       </properties>
    </persistence-unit>
 </persistence>
