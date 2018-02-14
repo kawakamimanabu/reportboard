@@ -22,6 +22,7 @@ import javax.persistence.Table;
 	@NamedQuery(name="Users.findAll",              query="SELECT u FROM Users u ORDER BY u.userId ASC"),
 	@NamedQuery(name="Users.findById",             query="SELECT u FROM Users u WHERE u.userId = :userId"),
 	@NamedQuery(name="Users.findByName",           query="SELECT u FROM Users u WHERE u.name = :name"),
+	@NamedQuery(name="Users.findByMailAddress",    query="SELECT u FROM Users u WHERE u.mailAddress = :mailAddress"),
 	@NamedQuery(name="Users.findEducationStaff",   query="SELECT u FROM Users u WHERE u.staffFlag = 1 ORDER BY u.userId ASC"),
 	@NamedQuery(name="Users.findAllCandidates",    query="SELECT u FROM Users u WHERE u.staffFlag = 0 ORDER BY u.userId ASC")
 })

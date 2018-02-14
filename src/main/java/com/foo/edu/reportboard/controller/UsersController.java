@@ -25,7 +25,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.foo.edu.reportboard.model.Users;
-import com.foo.edu.reportboard.service.UserRegistration;
+import com.foo.edu.reportboard.service.UsersRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -38,7 +38,7 @@ public class UsersController {
     private FacesContext facesContext;
 
     @Inject
-    private UserRegistration memberRegistration;
+    private UsersRegistration memberRegistration;
 
     @Produces
     @Named

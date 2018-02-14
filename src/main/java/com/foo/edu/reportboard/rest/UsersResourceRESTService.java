@@ -42,7 +42,7 @@ import javax.ws.rs.core.Response;
 
 import com.foo.edu.reportboard.data.UsersRepository;
 import com.foo.edu.reportboard.model.Users;
-import com.foo.edu.reportboard.service.UserRegistration;
+import com.foo.edu.reportboard.service.UsersRegistration;
 
 /**
  * JAX-RS Example
@@ -63,7 +63,7 @@ public class UsersResourceRESTService {
     private UsersRepository repository;
 
     @Inject
-    UserRegistration registration;
+    UsersRegistration registration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
