@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 @NamedQueries ({
 	@NamedQuery(name="Reports.findAll",              query="SELECT r FROM Reports r ORDER BY r.reportId ASC"),
 	@NamedQuery(name="Reports.findById",             query="SELECT r FROM Reports r WHERE r.reportId = :reportId"),
-	@NamedQuery(name="Reports.findByCreated",        query="SELECT r FROM Reports r WHERE r.usersByCreatedUserId.userId = :createdUserId"),
+	@NamedQuery(name="Reports.findByCreated",        query="SELECT r FROM Reports r WHERE r.usersByCreatedUserId.userId = :createdUserId ORDER BY r.createdWhen DESC"),
 	@NamedQuery(name="Reports.findByUpdated",        query="SELECT r FROM Reports r WHERE r.usersByUpdatedUserId.userId = :updatedUserId")
 })
 public class Reports implements java.io.Serializable {
@@ -125,7 +125,7 @@ public class Reports implements java.io.Serializable {
 		this.updatedWhen = updatedWhen;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reports")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "reports")
 	public Set<Comments> getComments() {
 		return this.comments;
 	}
@@ -134,7 +134,7 @@ public class Reports implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reports")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "reports")
 	public Set<ReportImages> getReportImages() {
 		return this.reportImages;
 	}
