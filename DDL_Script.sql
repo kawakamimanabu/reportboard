@@ -1,3 +1,4 @@
+-- DDL Script for PostgreSQL
 --<ScriptOptions statementTerminator=";"/>
 
 CREATE TABLE "public"."report_images" (
