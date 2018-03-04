@@ -6,17 +6,17 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import com.foo.edu.reportboard.model.Reports;
+import com.foo.edu.reportboard.model.Report;
 
 @Stateless
-public class ReportsService extends AbstractService {
+public class ReportService extends AbstractService {
 
 	@SuppressWarnings("unchecked")
-	public List<Reports> getReportsByUser(int userId) {
+	public List<Report> getReportsByUser(int userId) {
 		try {
 			Query q = em.createNamedQuery("Reports.findByCreated");
 			q.setParameter("createdUserId", userId);
-			return (List<Reports>)q.getResultList();
+			return (List<Report>)q.getResultList();
 		}
 		catch(NoResultException ex) {
 			logger.severe("Reports レコードが見つかりません。[" + ex.getMessage() +"]");

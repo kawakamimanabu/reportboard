@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.security.auth.spi.Users;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -31,8 +32,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.foo.edu.reportboard.model.Users;
-import com.foo.edu.reportboard.service.UsersRegistration;
+import com.foo.edu.reportboard.model.User;
+import com.foo.edu.reportboard.service.UserRegistration;
 import com.foo.edu.reportboard.util.Resources;
 
 @RunWith(Arquillian.class)
@@ -40,7 +41,7 @@ public class UsersRegistrationTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(Users.class, UsersRegistration.class, Resources.class)
+                .addClasses(Users.class, UserRegistration.class, Resources.class)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource
@@ -48,14 +49,14 @@ public class UsersRegistrationTest {
     }
 
     @Inject
-    UsersRegistration memberRegistration;
+    UserRegistration memberRegistration;
 
     @Inject
     Logger log;
 
     @Test
     public void testRegister() throws Exception {
-        Users newMember = new Users();
+        User newMember = new User();
         newMember.setName("Jane Doe");
         newMember.setMailAddress("jane@mailinator.com");
         memberRegistration.register(newMember);

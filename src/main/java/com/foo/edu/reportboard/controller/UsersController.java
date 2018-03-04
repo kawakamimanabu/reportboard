@@ -24,8 +24,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.foo.edu.reportboard.model.Users;
-import com.foo.edu.reportboard.service.UsersRegistration;
+import com.foo.edu.reportboard.model.User;
+import com.foo.edu.reportboard.service.UserRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -38,20 +38,20 @@ public class UsersController {
     private FacesContext facesContext;
 
     @Inject
-    private UsersRegistration memberRegistration;
+    private UserRegistration memberRegistration;
 
     @Produces
     @Named
-    private Users newUsers;
+    private User newUser;
 
     @PostConstruct
     public void initNewMember() {
-        newUsers = new Users();
+        newUser = new User();
     }
 
     public void register() throws Exception {
         try {
-            memberRegistration.register(newUsers);
+            memberRegistration.register(newUser);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initNewMember();

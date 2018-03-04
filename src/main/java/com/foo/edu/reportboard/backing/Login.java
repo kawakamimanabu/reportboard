@@ -8,8 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.foo.edu.reportboard.model.Users;
-import com.foo.edu.reportboard.service.UsersService;
+import com.foo.edu.reportboard.model.User;
+import com.foo.edu.reportboard.service.UserService;
 
 
 /**
@@ -20,7 +20,7 @@ import com.foo.edu.reportboard.service.UsersService;
 @Model
 public class Login extends AbstractBacking {
 
-	@EJB UsersService userOperation;
+	@EJB UserService userOperation;
 	private String mailAddress;
 	private String password;
 
@@ -33,7 +33,7 @@ public class Login extends AbstractBacking {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 		HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-		Users user = null;
+		User user = null;
 		try {
 			request.login(mailAddress, password);
 			user = userOperation.getUserByMailAddress(mailAddress);

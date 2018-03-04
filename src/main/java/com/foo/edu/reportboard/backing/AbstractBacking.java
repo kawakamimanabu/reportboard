@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.foo.edu.reportboard.model.Users;
+import com.foo.edu.reportboard.model.User;
 
 /**
  * BackingBean の基底クラス
@@ -23,9 +23,9 @@ public abstract class AbstractBacking {
 	 * ログイン中の Staff 情報を取得します。
 	 * @return
 	 */
-	protected Users getLoggedInStaff() {
+	protected User getLoggedInStaff() {
 		HttpSession session = getSessionFromRequest();
-		return (Users)session.getAttribute("users");
+		return (User)session.getAttribute("users");
 	}
 
 	/**

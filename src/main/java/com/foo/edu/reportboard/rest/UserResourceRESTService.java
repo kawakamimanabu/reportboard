@@ -40,9 +40,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.foo.edu.reportboard.data.UsersRepository;
-import com.foo.edu.reportboard.model.Users;
-import com.foo.edu.reportboard.service.UsersRegistration;
+import com.foo.edu.reportboard.data.UserRepository;
+import com.foo.edu.reportboard.model.User;
+import com.foo.edu.reportboard.service.UserRegistration;
 
 /**
  * JAX-RS Example
@@ -51,7 +51,7 @@ import com.foo.edu.reportboard.service.UsersRegistration;
  */
 @Path("/users")
 @RequestScoped
-public class UsersResourceRESTService {
+public class UserResourceRESTService {
 
     @Inject
     private Logger log;
@@ -60,22 +60,22 @@ public class UsersResourceRESTService {
     private Validator validator;
 
     @Inject
-    private UsersRepository repository;
+    private UserRepository repository;
 
     @Inject
-    UsersRegistration registration;
+    UserRegistration registration;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Users> listAllUsers() {
+    public List<User> listAllUser() {
         return repository.findAllOrderedByName();
     }
 
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Users lookupMemberById(@PathParam("id") long id) {
-        Users user = repository.findById(id);
+    public User lookupMemberById(@PathParam("id") long id) {
+        User user = repository.findById(id);
         if (user == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
@@ -89,7 +89,7 @@ public class UsersResourceRESTService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createMember(Users user) {
+    public Response createMember(User user) {
 
         Response.ResponseBuilder builder = null;
 
@@ -133,9 +133,9 @@ public class UsersResourceRESTService {
      * @throws ConstraintViolationException If Bean Validation errors exist
      * @throws ValidationException If member with the same email already exists
      */
-    private void validateMember(Users users) throws ConstraintViolationException, ValidationException {
+    private void validateMember(User users) throws ConstraintViolationException, ValidationException {
         // Create a bean validator and check for issues.
-        Set<ConstraintViolation<Users>> violations = validator.validate(users);
+        Set<ConstraintViolation<User>> violations = validator.validate(users);
 
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
@@ -174,7 +174,7 @@ public class UsersResourceRESTService {
      * @return True if the email already exists, and false otherwise
      */
     public boolean emailAlreadyExists(String email) {
-        Users users = null;
+        User users = null;
         try {
             users = repository.findByEmail(email);
         } catch (NoResultException e) {

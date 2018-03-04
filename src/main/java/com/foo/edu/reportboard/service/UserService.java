@@ -6,7 +6,9 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import com.foo.edu.reportboard.model.Users;
+import org.jboss.security.auth.spi.Users;
+
+import com.foo.edu.reportboard.model.User;
 
 /**
  * Staff 情報を操作する EJB クラス
@@ -14,21 +16,21 @@ import com.foo.edu.reportboard.model.Users;
  *
  */
 @Stateless
-public class UsersService extends AbstractService {
+public class UserService extends AbstractService {
 
 	/**
 	 * アカウント名から Users レコードを取得します。
 	 * @param name
 	 * @return
 	 */
-	public Users getUserByName(String name) {
+	public User getUserByName(String name) {
 		try {
 			Query q = em.createNamedQuery("Users.findByName");
 			q.setParameter("name", name);
-			return (Users) q.getSingleResult();
+			return (User) q.getSingleResult();
 		}
 		catch(NoResultException ex) {
-			logger.severe("Users レコードが見つかりません。[" + ex.getMessage() +"]");
+			logger.severe("User レコードが見つかりません。[" + ex.getMessage() +"]");
 		}
 		return null;
 	}
@@ -55,14 +57,14 @@ public class UsersService extends AbstractService {
 	 * @param mailAddress
 	 * @return
 	 */
-	public Users getUserByMailAddress(String mailAddress) {
+	public User getUserByMailAddress(String mailAddress) {
 		try {
 			Query q = em.createNamedQuery("Users.findByMailAddress");
 			q.setParameter("mailAddress", mailAddress);
-			return (Users) q.getSingleResult();
+			return (User) q.getSingleResult();
 		}
 		catch(NoResultException ex) {
-			logger.severe("Users レコードが見つかりません。mailAddress:[" + mailAddress + "], [" + ex.getMessage() +"]");
+			logger.severe("User レコードが見つかりません。mailAddress:[" + mailAddress + "], [" + ex.getMessage() +"]");
 		}
 		return null;
 	}
@@ -73,7 +75,7 @@ public class UsersService extends AbstractService {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Users> getAllCandidateList(){
+	public List<User> getAllCandidateList(){
 		Query q = em.createNamedQuery("Staff.findAllCandidates");
 		return q.getResultList();
 	}
@@ -83,7 +85,7 @@ public class UsersService extends AbstractService {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Users> getEducationStaffList() {
+	public List<User> getEducationStaffList() {
 		Query q = em.createNamedQuery("Staff.findEducationStaff");
 		return q.getResultList();
 	}
@@ -92,8 +94,8 @@ public class UsersService extends AbstractService {
 	 * User 情報を更新します。
 	 * @param target
 	 */
-	public Users updateUser(Users target) {
-		Users staff = em.merge(target);
+	public User updateUser(User target) {
+		User staff = em.merge(target);
 		em.flush();
 		return staff;
 	}
@@ -103,13 +105,13 @@ public class UsersService extends AbstractService {
 	 * @param target
 	 * @return
 	 */
-	public Users saveStaff(Users target) {
+	public User saveStaff(User target) {
 		if (target.getUserId() > 0) {
 			updateUser(target);
 		}
 		else {
 			em.persist(target);
-			Users user = getUserByMailAddress(target.getMailAddress());
+			User user = getUserByMailAddress(target.getMailAddress());
 			target.setUserId(user.getUserId());
 		}
 		return target;
@@ -120,7 +122,7 @@ public class UsersService extends AbstractService {
 	 * @param target
 	 * @return
 	 */
-	public int updatePassword(Users target) {
+	public int updatePassword(User target) {
 		String jpql = "UPDATE Users s SET s.password = :password WHERE s.userId = :userId";
 		Query q = em.createQuery(jpql);
 		q.setParameter("password", target.getPassword());

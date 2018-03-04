@@ -16,17 +16,18 @@
  */
 package com.foo.edu.reportboard.service;
 
-import com.foo.edu.reportboard.model.Users;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.util.logging.Logger;
+
+import com.foo.edu.reportboard.model.User;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class UsersRegistration {
+public class UserRegistration {
 
     @Inject
     private Logger log;
@@ -35,9 +36,9 @@ public class UsersRegistration {
     private EntityManager em;
 
     @Inject
-    private Event<Users> userEventSrc;
+    private Event<User> userEventSrc;
 
-    public void register(Users user) throws Exception {
+    public void register(User user) throws Exception {
         log.info("Registering " + user.getName());
         em.persist(user);
         userEventSrc.fire(user);
